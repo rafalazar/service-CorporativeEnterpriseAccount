@@ -29,4 +29,17 @@ public class EnterpriseClient {
 				.retrieve()
 				.bodyToMono(EnterpriseDto.class);
 	}
+	
+	public Mono<EnterpriseDto> findById(String id){
+		return client.get().uri("/{id}",Collections.singletonMap("id", id))
+				.retrieve()
+				.bodyToMono(EnterpriseDto.class);
+	}
+	
+	public Mono<EnterpriseDto> saveDto(EnterpriseDto dto){
+		return client.post()
+				.uri("/create")
+				.retrieve()
+				.bodyToMono(EnterpriseDto.class);
+	}
 }

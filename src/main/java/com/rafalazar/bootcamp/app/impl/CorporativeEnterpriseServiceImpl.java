@@ -66,4 +66,14 @@ public class CorporativeEnterpriseServiceImpl implements CorporativeEnterpriseSe
 		return client.createById(id);
 	}
 
+	@Override
+	public Mono<EnterpriseDto> saveDto(EnterpriseDto dto) {
+		return client.saveDto(dto);
+	}
+
+	@Override
+	public Mono<EnterpriseDto> findByIdDto(String id) {
+		return client.findById(id);
+	}
+
 }

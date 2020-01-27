@@ -17,5 +17,7 @@ public class EnterpriseDto {
 	private Date joinAt;
 	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private Date updateAt;
+	
+	public AccountDto account;
 
 }

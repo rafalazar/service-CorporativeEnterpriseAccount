@@ -23,4 +23,8 @@ public interface CorporativeEnterpriseService {
 	public Flux<EnterpriseDto> findAllClients();
 	
 	public Mono<EnterpriseDto> createById(String id);
+	
+	public Mono<EnterpriseDto> findByIdDto(String id);
+	
+	public Mono<EnterpriseDto> saveDto(EnterpriseDto dto);
 }
