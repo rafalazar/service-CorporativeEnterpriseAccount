@@ -3,7 +3,9 @@ package com.rafalazar.bootcamp.app.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.rafalazar.bootcamp.app.client.EnterpriseClient;
 import com.rafalazar.bootcamp.app.document.CorporativeEnterprise;
+import com.rafalazar.bootcamp.app.dto.EnterpriseDto;
 import com.rafalazar.bootcamp.app.repository.CorporativeEnterpriseRepository;
 import com.rafalazar.bootcamp.app.service.CorporativeEnterpriseService;
 
@@ -13,6 +15,9 @@ import reactor.core.publisher.Mono;
 @Service
 public class CorporativeEnterpriseServiceImpl implements CorporativeEnterpriseService{
 
+	@Autowired
+	private EnterpriseClient client;
+	
 	@Autowired
 	private CorporativeEnterpriseRepository repo;
 	
@@ -49,6 +54,16 @@ public class CorporativeEnterpriseServiceImpl implements CorporativeEnterpriseSe
 	@Override
 	public Mono<Void> delete(CorporativeEnterprise ce) {
 		return repo.delete(ce);
+	}
+
+	@Override
+	public Flux<EnterpriseDto> findAllClients() {
+		return client.findAllClients();
+	}
+
+	@Override
+	public Mono<EnterpriseDto> createById(String id) {
+		return client.createById(id);
 	}
 
 }

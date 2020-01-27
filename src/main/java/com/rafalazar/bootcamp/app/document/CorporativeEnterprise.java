@@ -17,7 +17,7 @@ public class CorporativeEnterprise {
 	private String numAccount;
 	private String razonSocial;
 	private String address;
-	private String amount;
+	private Double amount;
 	private Date createAt;
 
 }

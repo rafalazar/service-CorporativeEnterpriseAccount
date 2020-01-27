@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.rafalazar.bootcamp.app.document.CorporativeEnterprise;
+import com.rafalazar.bootcamp.app.dto.EnterpriseDto;
 import com.rafalazar.bootcamp.app.service.CorporativeEnterpriseService;
 
 import reactor.core.publisher.Flux;
@@ -52,7 +53,7 @@ public class CorporativeEnterpriseController {
 	
 	//Esta es la forma correcta de eliminar un producto.F!
 	@DeleteMapping("/deleteById/{id}")
-	Mono<ResponseEntity<Void>> deleteById(@PathVariable String id) {
+	public Mono<ResponseEntity<Void>> deleteById(@PathVariable String id) {
 		return service.findById(id)
 				.flatMap(cv -> {
 					return service.delete(cv)
@@ -63,12 +64,34 @@ public class CorporativeEnterpriseController {
 	
 	//Esta es la forma correcta de actualizar - F!
 	@PutMapping("/update/{id}")
-	Mono<ResponseEntity<CorporativeEnterprise>> update(@PathVariable String id, @RequestBody CorporativeEnterprise ce) {
+	public Mono<ResponseEntity<CorporativeEnterprise>> update(@PathVariable String id, @RequestBody CorporativeEnterprise ce) {
 		return service.update(ce, id)
 				.map(c -> ResponseEntity.created(URI.create("/corportativeEnterprise".concat(c.getId())))
 						.contentType(MediaType.APPLICATION_JSON).body(c))
 				.defaultIfEmpty(ResponseEntity.notFound().build());
 				
+	}
+	
+	//--------------------------------------------------->
+	@GetMapping("/findAllClients")
+	public Flux<EnterpriseDto> findAllClients(){
+		return service.findAllClients();
+	}
+	
+	@PostMapping("/createById/{id}")
+	public Mono<CorporativeEnterprise> createById(@PathVariable String id, @RequestBody CorporativeEnterprise ce){
+		if(ce.getCreateAt() == null) {
+			ce.setCreateAt(new Date());
+		}
+		return service.createById(id)
+				.flatMap(c -> {
+					ce.setRuc(c.getRuc());
+					ce.setNumAccount(ce.getNumAccount());
+					ce.setRazonSocial(c.getSocialName());
+					ce.setAddress(c.getAddress());
+					ce.setAmount(ce.getAmount());
+					return service.save(ce);
+				});
 	}
 
 }
